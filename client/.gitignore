@@ -11,7 +11,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
+4-layer-architecture.txt
 # Environment variables
 .env
 .env.*
