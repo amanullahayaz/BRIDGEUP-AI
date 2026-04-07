@@ -14,16 +14,16 @@ const tokenBlacklistModel = require('../models/blacklist.model.js');
 
 async function registerUserController(req, res) {
     const { username, email, password } = req.body;
-    if(!username || !email || !password){
+    if (!username || !email || !password) {
         return res.status(400).json({ message: 'Please provide all required fields' });
     }
 
     const isUseralreadyExists = await userModel.findOne({
-         $or: [{ username }, { email }] 
-        });
+        $or: [{ username }, { email }]
+    });
     if (isUseralreadyExists) {
-        return res.status(400).json({ 
-            message: 'Username or email already exists' 
+        return res.status(400).json({
+            message: 'Username or email already exists'
         });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,19 +37,20 @@ async function registerUserController(req, res) {
     await user.save();
 
 
-    const token = jwt.sign({ 
-        userId: user._id, username: user.username },
-         process.env.JWT_SECRET, { expiresIn: '1d' });
-         res.cookie('token', token);
-         res.status(201).json({
-            message: 'User registered successfully',
-            user: {
-                id: user._id,
-                username: user.username    
-         }
-        });
+    const token = jwt.sign({
+        userId: user._id, username: user.username
+    },
+        process.env.JWT_SECRET, { expiresIn: '1d' });
+    res.cookie('token', token);
+    res.status(201).json({
+        message: 'User registered successfully',
+        user: {
+            id: user._id,
+            username: user.username
+        }
+    });
 
-   
+
 }
 
 /**
@@ -59,10 +60,10 @@ async function registerUserController(req, res) {
  */
 
 async function loginUserController(req, res) {
-    const { email, password } = req.body;       
-    if(!email || !password){
+    const { email, password } = req.body;
+    if (!email || !password) {
         return res.status(400).json({ message: 'Please provide all required fields' });
-    }   
+    }
 
     const user = await userModel.findOne({ email });
     if (!user) {
