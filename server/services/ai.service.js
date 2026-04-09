@@ -7,28 +7,28 @@ const ai = new GoogleGenAI({
 
 
 const interviewReportSchema = z.object({
-    matchScore: z.number().min(0).max(100).description("A match score between 0 and 100 indicating how well the candidate matches the job requirements."),
+    matchScore: z.number().min(0).max(100).describe("A match score between 0 and 100 indicating how well the candidate matches the job requirements."),
     technicalQuestions: z.array(z.object({
-        question: z.string().description("The technical question can be to asked in the interview."),
-        intention: z.string().description("The intention behind asking this technical question."),
-        answer: z.string().description("How to answer this question, what points to cover, and what approach to take etc."),
-    })).description("Technical question that can be asked in the interview along with their intentions and answers."),
+        question: z.string().describe("The technical question can be to asked in the interview."),
+        intention: z.string().describe("The intention behind asking this technical question."),
+        answer: z.string().describe("How to answer this question, what points to cover, and what approach to take etc."),
+    })).describe("Technical question that can be asked in the interview along with their intentions and answers."),
     behavioralQuestions: z.array(z.object({
-        question: z.string().description("The behavioral question can be to asked in the interview."),
-        intention: z.string().description("The intention behind asking this  behavioral question."),
-        answer: z.string().description("How to answer this question, what points to cover, and what approach to take etc.") ,
-    })).description("Behavioral questions that can be asked in the interview along with their intentions and answers."),
+        question: z.string().describe("The behavioral question can be to asked in the interview."),
+        intention: z.string().describe("The intention behind asking this  behavioral question."),
+        answer: z.string().describe("How to answer this question, what points to cover, and what approach to take etc.") ,
+    })).describe("Behavioral questions that can be asked in the interview along with their intentions and answers."),
     skillGaps: z.array(z.object({
-        skill: z.string().description("The skill that is missing or needs improvement."),
-        severity: z.enum(["low", "medium", "high"]).description("The severity of the skill gap, indicating how critical it is for the candidate to address it."),
-    })).description("A list of skill gaps with their severity (low, medium, high)."),
+        skill: z.string().describe("The skill that is missing or needs improvement."),
+        severity: z.enum(["low", "medium", "high"]).describe("The severity of the skill gap, indicating how critical it is for the candidate to address it."),
+    })).describe("A list of skill gaps with their severity (low, medium, high)."),
     preparationPlan: z.array(z.object({
-        day : z.number().description("The day number in the preparation plan, starting from 1."),
-        focus : z.string().description("The main focus or theme for that day, such as 'Data Structures', 'Behavioral Questions', etc."),
-        tasks: z.array(z.string()).description("A list of tasks or activities the candidate should undertake on this day to prepare for the interview."),
-    })).description("A preparation plan for the candidate to improve their chances in the interview, broken down by day with specific tasks to complete."),
+        day : z.number().describe("The day number in the preparation plan, starting from 1."),
+        focus : z.string().describe("The main focus or theme for that day, such as 'Data Structures', 'Behavioral Questions', etc."),
+        tasks: z.array(z.string()).describe("A list of tasks or activities the candidate should undertake on this day to prepare for the interview."),
+    })).describe("A preparation plan for the candidate to improve their chances in the interview, broken down by day with specific tasks to complete."),
 
-})
+}).describe("The interview report generated for the candidate based on the job description, resume, and self-description they provided.");
 
 
 
