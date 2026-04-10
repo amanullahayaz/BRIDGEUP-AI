@@ -20,14 +20,14 @@ export const useInterview = () => {
         let response = null
         try {
             response = await generateInterviewReport({ jobDescription, selfDescription, resumeFile })
-            setReport(response.report)
+            setReport(response.interviewReport)
         } catch (error) {
             console.log(error)
         } finally {
             setLoading(false)
         }
 
-        return response ? response.report : null
+        return response ? response.interviewReport : null
     }
 
     const getReportById = useCallback(async (interviewId) => {
@@ -35,13 +35,13 @@ export const useInterview = () => {
         let response = null
         try {
             response = await getInterviewReportById(interviewId)
-            setReport(response.report)
+            setReport(response.interviewReport)
         } catch (error) {
             console.log(error)
         } finally {
             setLoading(false)
         }
-        return response.report
+        return response.interviewReport
     }, [])
 
     const getReports = useCallback(async () => {
@@ -49,7 +49,7 @@ export const useInterview = () => {
         let response = null
         try {
             response = await getAllInterviewReports()
-            const reportsData = response?.reports ?? []
+            const reportsData = response?.interviewReports ?? []
             setReports(reportsData)
             return reportsData
         } catch (error) {

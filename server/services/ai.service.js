@@ -40,12 +40,64 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
                         Job Description: ${jobDescription}
 `
 
+    const googleSchema = {
+        type: "OBJECT",
+        properties: {
+            matchScore: { type: "NUMBER", description: "A score between 0 and 100" },
+            technicalQuestions: {
+                type: "ARRAY",
+                items: {
+                    type: "OBJECT",
+                    properties: {
+                        question: { type: "STRING" },
+                        intention: { type: "STRING" },
+                        answer: { type: "STRING" }
+                    }
+                }
+            },
+            behavioralQuestions: {
+                type: "ARRAY",
+                items: {
+                    type: "OBJECT",
+                    properties: {
+                        question: { type: "STRING" },
+                        intention: { type: "STRING" },
+                        answer: { type: "STRING" }
+                    }
+                }
+            },
+            skillGaps: {
+                type: "ARRAY",
+                items: {
+                    type: "OBJECT",
+                    properties: {
+                        skill: { type: "STRING" },
+                        severity: { type: "STRING", description: "low, medium, or high" }
+                    }
+                }
+            },
+            preparationPlan: {
+                type: "ARRAY",
+                items: {
+                    type: "OBJECT",
+                    properties: {
+                        day: { type: "NUMBER" },
+                        focus: { type: "STRING" },
+                        tasks: { type: "ARRAY", items: { type: "STRING" } }
+                    }
+                }
+            },
+            title: { type: "STRING" }
+        },
+        required: ["matchScore", "technicalQuestions", "behavioralQuestions", "skillGaps", "preparationPlan", "title"]
+    };
+
     const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(interviewReportSchema),
+            responseSchema: googleSchema,
         }
     })
 
@@ -95,12 +147,20 @@ async function generateResumePdf({ resume, selfDescription, jobDescription }) {
                         The resume should not be so lengthy, it should ideally be 1-2 pages long when converted to PDF. Focus on quality rather than quantity and make sure to include all the relevant information that can increase the candidate's chances of getting an interview call for the given job description.
                     `
 
+    const googleSchema = {
+        type: "OBJECT",
+        properties: {
+            html: { type: "STRING", description: "The HTML content of the resume which can be converted to PDF" }
+        },
+        required: ["html"]
+    };
+
     const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: prompt,
         config: {
             responseMimeType: "application/json",
-            responseSchema: zodToJsonSchema(resumePdfSchema),
+            responseSchema: googleSchema,
         }
     })
 
