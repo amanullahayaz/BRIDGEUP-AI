@@ -1,16 +1,13 @@
 require("dotenv").config();
 
 const app = require('./app');
-// const connectToDB = require('./config/db');
+const connectToDB = require('./config/db');
 
-// let isConnected = false;
-// 
-// async function connectDBOnce() {
-//   if (!isConnected) {
-//     await connectToDB();
-//     isConnected = true;
-//   }
-// }
+connectToDB().then(() => {
+  console.log("Database connected");
+}).catch(err => {
+  console.error("Database connection failed", err);
+});
 
 app.get('/', async (req, res) => {
   
