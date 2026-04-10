@@ -7,9 +7,13 @@ async function connectToDB(){
     
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
-    process.exit(1);
-    }
+    
+    // ❌ REMOVE THIS
+    // process.exit(1);
 
+    // ✅ THROW INSTEAD
+    throw error;
+  }
 }
 
 module.exports = connectToDB;
