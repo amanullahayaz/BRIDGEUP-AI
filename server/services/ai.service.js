@@ -109,10 +109,41 @@ async function generateInterviewReport({ resume, selfDescription, jobDescription
 
 
 async function generatePdfFromHtml(htmlContent) {
-    const puppeteer = require("puppeteer");
-    const browser = await puppeteer.launch()
+    let browser;
+    
+    if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+        // Vercel Serverless Chromium
+        const puppeteerCore = require("puppeteer-core");
+        const chromium = require("@sparticuz/chromium");
+        browser = await puppeteerCore.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+        });
+    } else {
+        // Local fallback if someone installs normal puppeteer locally or has Chrome installed
+        // It requires puppeteer to be manually installed or an executable path to Chrome.
+        // We will try to rely on a local chrome executable if possible.
+        const puppeteerCore = require("puppeteer-core");
+        
+        let localChromePath = "";
+        if (process.platform === 'win32') {
+            localChromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+        } else if (process.platform === 'darwin') {
+            localChromePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+        } else {
+            localChromePath = "/usr/bin/google-chrome";
+        }
+        
+        browser = await puppeteerCore.launch({
+            executablePath: localChromePath,
+            headless: true,
+        });
+    }
+
     const page = await browser.newPage();
-    await page.setContent(htmlContent, { waitUntil: "networkidle0" })
+    await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
     const pdfBuffer = await page.pdf({
         format: "A4", margin: {
@@ -121,11 +152,10 @@ async function generatePdfFromHtml(htmlContent) {
             left: "15mm",
             right: "15mm"
         }
-    })
+    });
 
-    await browser.close()
-
-    return pdfBuffer
+    await browser.close();
+    return pdfBuffer;
 }
 
 async function generateResumePdf({ resume, selfDescription, jobDescription }) {
