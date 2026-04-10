@@ -1,17 +1,24 @@
-require('express');
 require("dotenv").config();
 
 const app = require('./app');
 const connectToDB = require('./config/db');
 
-connectToDB(); //DB connection
+let isConnected = false;
 
+async function connectDBOnce() {
+  if (!isConnected) {
+    await connectToDB();
+    isConnected = true;
+  }
+}
 
-app.get('/', (req, res) => {
-  res.send('hello this is home!');
+app.get('/', async (req, res) => {
+  try {
+    await connectDBOnce();
+    res.send('hello this is home!');
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
-// app.listen(3000, () => {
-//   console.log('Server is running on port 3000');
-// });
 
-export default app;
+module.exports = app;
