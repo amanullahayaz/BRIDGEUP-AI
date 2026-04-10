@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import "../auth.form.scss"
 import {Link,useNavigate} from "react-router"
 import {useAuth} from "../hooks/useAuth"
+import Spinner from "../../../components/Spinner"
+
 const Login = () => {
 const navigate = useNavigate();
  const {loading,handleLogin} = useAuth();
@@ -11,12 +13,12 @@ const navigate = useNavigate();
  const handleSubmit = async(e) => {
     e.preventDefault();
     await handleLogin({email,password});
-    navigate("/");
+    navigate("/home");
 
 }
 
     if(loading){
-        return (<main><h1>Loading...</h1></main>)
+        return (<Spinner />)
     }
 
   return (

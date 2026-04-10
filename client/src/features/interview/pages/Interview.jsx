@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import '../style/interview.scss'
 import { useInterview } from '../hooks/useInterview.js'
-import {  useParams } from 'react-router'
-
+import { useParams } from 'react-router'
+import Navbar from '../../../components/Navbar'
+import Spinner from '../../../components/Spinner'
 
 
 const NAV_ITEMS = [
@@ -13,7 +14,7 @@ const NAV_ITEMS = [
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 const QuestionCard = ({ item, index }) => {
-    const [ open, setOpen ] = useState(false)
+    const [open, setOpen] = useState(false)
     return (
         <div className='q-card'>
             <div className='q-card__header' onClick={() => setOpen(o => !o)}>
@@ -58,7 +59,7 @@ const RoadMapDay = ({ day }) => (
 
 // ── Main Component ────────────────────────────────────────────────────────────
 const Interview = () => {
-    const [ activeNav, setActiveNav ] = useState('technical')
+    const [activeNav, setActiveNav] = useState('technical')
     const { report, getReportById, loading, getResumePdf } = useInterview()
     const { interviewId } = useParams()
 
@@ -66,14 +67,14 @@ const Interview = () => {
         if (interviewId) {
             getReportById(interviewId)
         }
-    }, [ interviewId, getReportById ])
+    }, [interviewId, getReportById])
 
 
 
     if (loading || !report) {
         return (
             <main className='loading-screen'>
-                <h1>Loading your interview plan...</h1>
+                <Spinner text="Loading..." />
             </main>
         )
     }
@@ -85,6 +86,7 @@ const Interview = () => {
 
     return (
         <div className='interview-page'>
+            <Navbar />
             <div className='interview-layout'>
 
                 {/* ── Left Nav ── */}

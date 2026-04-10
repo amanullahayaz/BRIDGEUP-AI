@@ -1,0 +1,81 @@
+@use 'sass:color';
+
+$bg-page:        #0d1117;
+$text-primary:   #e6edf3;
+$accent:         #ff2d78;
+
+.global-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 3rem;
+    background-color: rgba($bg-page, 0.85);
+    backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 100;
+    border-bottom: 1px solid rgba(42, 51, 72, 0.5);
+
+    .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        
+        .navbar-logo {
+            height: 32px;
+            object-fit: contain;
+        }
+    }
+
+    .auth-buttons {
+        display: flex;
+        gap: 1rem;
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 0.4rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            
+            &--login {
+                color: $text-primary;
+                background: transparent;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+
+                &:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-color: rgba(255, 255, 255, 0.4);
+                }
+            }
+
+            &--signup {
+                background: linear-gradient(135deg, $accent 0%, color.adjust($accent, $lightness: -10%) 100%);
+                color: #fff;
+                border: none;
+
+                &:hover {
+                    opacity: 0.9;
+                    transform: translateY(-1px);
+                }
+            }
+
+            &--logout {
+                color: #ff4b4b;
+                background: transparent;
+                border: 1px solid rgba(255, 75, 75, 0.3);
+
+                &:hover {
+                    background: rgba(255, 75, 75, 0.1);
+                    border-color: rgba(255, 75, 75, 0.6);
+                }
+            }
+        }
+    }
+}

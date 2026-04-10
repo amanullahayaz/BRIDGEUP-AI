@@ -1,0 +1,43 @@
+@use 'sass:color';
+
+$accent: #ff2d78;
+$text-muted: #7d8590;
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    width: 100%;
+    margin: auto;
+    flex: 1;
+
+    .spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba($accent, 0.2);
+        border-top-color: $accent;
+        border-radius: 50%;
+        animation: spinner-rotate 1s linear infinite;
+        margin-bottom: 1rem;
+    }
+
+    .spinner-text {
+        color: $text-muted;
+        font-size: 0.95rem;
+        font-weight: 500;
+        margin: 0;
+        animation: spinner-pulse 1.5s ease-in-out infinite;
+    }
+}
+
+@keyframes spinner-rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes spinner-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}

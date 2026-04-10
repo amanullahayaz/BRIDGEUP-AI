@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react'
 import "../style/home.scss"
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate } from 'react-router'
+import Navbar from '../../../components/Navbar'
+import Spinner from '../../../components/Spinner'
 
 const Home = () => {
 
@@ -23,13 +25,14 @@ const Home = () => {
     if (loading) {
         return (
             <main className='loading-screen'>
-                <h1>Loading your interview plan...</h1>
+                <Spinner text="Loading your interview plan..." />
             </main>
         )
     }
 
     return (
         <div className='home-page'>
+            <Navbar />
 
             {/* Page Header */}
             <header className='page-header'>

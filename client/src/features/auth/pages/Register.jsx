@@ -3,6 +3,8 @@ import {Link,useNavigate} from "react-router"
 import {useState} from "react"
 import "../auth.form.scss"
 import {useAuth} from "../hooks/useAuth"
+import Spinner from "../../../components/Spinner"
+
 const Register = () => {
 
     const navigate = useNavigate();
@@ -16,11 +18,11 @@ const Register = () => {
     
     
     await handleRegister({username,email,password});
-    navigate("/");
+    navigate("/home");
     }
 
     if(loading){
-        return (<main><h1>Loading...</h1></main>)
+        return (<Spinner />)
     }
   return (
         <main>
