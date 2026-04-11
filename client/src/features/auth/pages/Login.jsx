@@ -12,9 +12,12 @@ const navigate = useNavigate();
  
  const handleSubmit = async(e) => {
     e.preventDefault();
-    await handleLogin({email,password});
-    navigate("/home");
-
+    try {
+        await handleLogin({email,password});
+        navigate("/home");
+    } catch (error) {
+        // Error is logged by useAuth, just prevent navigation
+    }
 }
 
     if(loading){

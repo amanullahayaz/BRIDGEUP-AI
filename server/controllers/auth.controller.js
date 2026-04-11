@@ -40,8 +40,8 @@ async function registerUserController(req, res) {
     const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.cookie('token', token, {
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+        secure: true,
         path: '/',
         maxAge: 24 * 60 * 60 * 1000,
     });
@@ -81,8 +81,8 @@ async function loginUserController(req, res) {
     const token = jwt.sign({ userId: user._id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.cookie('token', token, {
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
+        secure: true,
         path: '/',
         maxAge: 24 * 60 * 60 * 1000,
     });
@@ -113,8 +113,8 @@ async function logoutUserController(req, res) {
     // Clear the token from cookies
     res.clearCookie('token', { 
         path: '/', 
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', 
-        secure: process.env.NODE_ENV === 'production'
+        sameSite: 'none', 
+        secure: true
     });
 
     res.status(200).json({ message: 'User logged out successfully' });

@@ -15,11 +15,13 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    
-    await handleRegister({username,email,password});
-    navigate("/home");
+    try {
+        await handleRegister({username,email,password});
+        navigate("/home");
+    } catch (error) {
+        // Error is logged by useAuth, we just prevent navigation
     }
+  }
 
     if(loading){
         return (<Spinner />)
