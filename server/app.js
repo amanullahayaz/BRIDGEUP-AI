@@ -9,7 +9,14 @@ app.set('trust proxy', 1);
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: function(origin, callback) {
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        if (!origin || origin === frontendUrl || origin.endsWith('.vercel.app') || origin.startsWith('http://localhost:')) {
+            callback(null, origin); // Access-Control-Allow-Origin will correctly respond with the incoming origin
+        } else {
+            callback(new Error('Blocked by CORS'));
+        }
+    },
     credentials: true
 }));
 
